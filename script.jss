@@ -85,3 +85,16 @@ async function callAI(prompt) {
 }
 
 // UI Helper functions (addMessage, resetProfile, drawer toggle) would go here...
+const menuBtn = document.getElementById('menu-btn');
+const drawer = document.getElementById('drawer');
+
+menuBtn.onclick = () => {
+    drawer.classList.toggle('active');
+};
+
+// Close drawer if user clicks outside on mobile
+document.addEventListener('click', (e) => {
+    if (!drawer.contains(e.target) && !menuBtn.contains(e.target)) {
+        drawer.classList.remove('active');
+    }
+});
