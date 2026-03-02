@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NK AI | Universal Mentor</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0f172a;
+            --accent: #38bdf8;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #f8fafc;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        
+        body { 
+            background: radial-gradient(circle at top, #1e293b, #0f172a); 
+            color: var(--text); height: 100vh; overflow: hidden; display: flex; flex-direction: column; 
+        }
+
+        /* Header & Drawer */
+        header { 
+            padding: 15px; display: flex; align-items: center; gap: 15px; 
+            background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid var(--border); backdrop-filter: blur(10px);
+        }
+        
+        .drawer {
+            position: fixed; left: -280px; top: 0; width: 280px; height: 100%;
+            background: #0f172a; z-index: 100; transition: 0.3s; padding: 20px;
+            border-right: 1px solid var(--border);
+        }
+        .drawer.active { left: 0; box-shadow: 10px 0 50px rgba(0,0,0,0.8); }
+
+        /* Chat Area */
+        #chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        
+        .msg { max-width: 85%; padding: 12px 16px; border-radius: 15px; line-height: 1.5; font-size: 15px; animation: slideUp 0.3s ease; }
+        .user { align-self: flex-end; background: var(--accent); color: #000; border-bottom-right-radius: 2px; }
+        .ai { align-self: flex-start; background: var(--glass); border: 1px solid var(--border); border-bottom-left-radius: 2px; }
+
+        /* Input Area */
+        .input-box { padding: 15px; display: flex; gap: 10px; background: rgba(15, 23, 42, 0.9); }
+        input { flex: 1; background: var(--glass); border: 1px solid var(--border); padding: 12px 20px; border-radius: 30px; color: white; outline: none; }
+        .btn { background: var(--accent); border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+        #typing { font-size: 12px; color: var(--accent); margin-left: 20px; display: none; margin-bottom: 10px; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div id="drawer" class="drawer">
+        <h2 style="color:var(--accent)">NK AI Menu</h2>
+        <p style="margin-top:20px; cursor:pointer;" onclick="resetApp()">🔄 Reset Profile</p>
+    </div>
+
+    <header>
+        <i class="material-icons" onclick="toggleDrawer()" style="cursor:pointer">menu</i>
+        <h3>NK AI</h3>
+    </header>
+
+    <div id="chat-container"></div>
+    <div id="typing">NK AI is strategizing...</div>
+
+    <div class="input-box">
+        <input type="text" id="userInput" placeholder="Type your response...">
+        <button class="btn" onclick="handleInput()"><i class="material-icons">send</i></button>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const API_KEY = "AIzaSyCSk60kASWq81TPPKrPWxV6amlaaCKZFSw"; 
+        
+        let profile = JSON.parse(localStorage.getItem('nk_profile')) || null;
+        let step = 0;
+        const questions = [
+            "What is your current primary role or occupation?",
+            "What are your top 3 goals for the next six months?",
+            "What is the biggest challenge you are currently facing?",
+            "How do you prefer to receive advice? (Direct/Pragmatic or Empathetic/Encouraging?)"
+        ];
+
+        const container = document.getElementById('chat-container');
+        const input = document.getElementById('userInput');
+
+        function toggleDrawer() { document.getElementById('drawer').classList.toggle('active'); }
+
+        function addMsg(text, type) {
+            const div = document.createElement('div');
+            div.className = `msg ${type}`;
+            div.innerHTML = text.replace(/\n/g, '<br>');
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Start Onboarding
+        window.onload = () => {
+            if (!profile) {
+                addMsg("Welcome to NK AI. Let's begin your Discovery Phase.", "ai");
+                setTimeout(() => addMsg(questions[0], "ai"), 1000);
+            } else {
+                addMsg(`Welcome back, ${profile.role || 'Partner'}. How shall we move toward your goals today?`, "ai");
+            }
+        };
+
+        function handleInput() {
+            const val = input.value.trim();
+            if (!val) return;
+            addMsg(val, "user");
+            input.value = "";
+
+            if (!profile) {
+                saveOnboarding(val);
+            } else {
+                callGemini(val);
+            }
+        }
+
+        function saveOnboarding(val) {
+            if (!profile) profile = {};
+            const keys = ["role", "goals", "challenge", "style"];
+            profile[keys[step]] = val;
+            step++;
+
+            if (step < questions.length) {
+                setTimeout(() => addMsg(questions[step], "ai"), 800);
+            } else {
+                localStorage.setItem('nk_profile', JSON.stringify(profile));
+                setTimeout(() => addMsg("Profile locked. I am now your strategist. Ask me anything.", "ai"), 800);
+            }
+        }
+
+        async function callGemini(userText) {
+            document.getElementById('typing').style.display = 'block';
+            
+            const systemPrompt = `You are NK AI. User Profile: ${JSON.stringify(profile)}. 
+            Instructions: Provide a 3-part response: 1. THE PATH (Steps), 2. THE INSIGHT (Perspective), 3. THE BRAINSTORM (Creative ideas). 
+            Tone: ${profile.style}.`;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: systemPrompt + "\nUser: " + userText }] }]
+                    })
+                });
+
+                const data = await response.json();
+                const aiResponse = data.candidates[0].content.parts[0].text;
+                addMsg(aiResponse, "ai");
+            } catch (e) {
+                addMsg("System Error: Connection to AI brain failed. Check API Key.", "ai");
+            } finally {
+                document.getElementById('typing').style.display = 'none';
+            }
+        }
+
+        function resetApp() {
+            localStorage.clear();
+            location.reload();
+        }
+
+        // Allow 'Enter' key to send
+        input.addEventListener("keypress", (e) => { if (e.key === "Enter") handleInput(); });
+    </script>
+</body>
+</html>
