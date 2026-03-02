@@ -1,4 +1,4 @@
-const API_KEY = "YOUR_GEMINI_API_KEY"; // Replace with your actual key
+const API_KEY = "AIzaSyCSk60kASWq81TPPKrPWxV6amlaaCKZFSw"; // Replace with your actual key
 const chatBox = document.getElementById('messages');
 const userInput = document.getElementById('user-input');
 const typingIndicator = document.getElementById('typing-indicator');
