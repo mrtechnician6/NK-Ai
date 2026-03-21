@@ -16,7 +16,18 @@ body {
     overflow: hidden;
 }
 
-/* HERO BACKGROUND */
+/* SECTIONS */
+.section {
+    display: none;
+    width: 100%;
+    height: 100vh;
+}
+
+.section.active {
+    display: block;
+}
+
+/* HERO */
 .hero {
     position: relative;
     width: 100%;
@@ -27,7 +38,7 @@ body {
     align-items: center;
 }
 
-/* DARK OVERLAY */
+/* OVERLAY */
 .hero::after {
     content: "";
     position: absolute;
@@ -51,24 +62,22 @@ body {
 
 /* TITLE */
 .hero h1 {
-    font-size: 3rem;
-    font-weight: 800;
+    font-size: 2.8rem;
+    font-weight: bold;
     background: linear-gradient(90deg, #00c6ff, #0072ff, #00ffcc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 20px;
 }
 
-/* DESCRIPTION */
+/* TEXT */
 .hero p {
     font-size: 16px;
     line-height: 1.7;
     color: #ddd;
-    margin-bottom: 25px;
 }
 
 /* BUTTON */
-.hero button {
+button {
     padding: 15px 30px;
     font-size: 18px;
     border: none;
@@ -76,13 +85,35 @@ body {
     background: linear-gradient(135deg, #00c6ff, #0072ff);
     color: white;
     cursor: pointer;
-    box-shadow: 0 0 25px rgba(0,198,255,0.6);
+    margin-top: 20px;
     transition: 0.3s;
 }
 
-.hero button:hover {
+button:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 40px rgba(0,198,255,0.9);
+}
+
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(18px);
+    padding: 30px;
+    border-radius: 14px;
+    max-width: 500px;
+    margin: auto;
+    text-align: center;
+}
+
+/* INPUT */
+input, textarea {
+    width: 90%;
+    max-width: 400px;
+    padding: 12px;
+    margin: 10px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    font-size: 14px;
 }
 
 /* TIMER */
@@ -92,48 +123,26 @@ body {
     color: #00ffcc;
 }
 
-/* FADE IN */
-.fade {
-    animation: fadeUp 1.2s ease forwards;
-}
-
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
 </style>
-<style>
-.section{
-    display:none;
-}
-
-.section.active{
-    display:block;
-}
-</style>
-
 </head>
 
 <body>
 
-<div class="progress"><div id="bar" class="progress-bar"></div></div>
-
 <!-- HERO -->
 <div id="offer" class="section active hero">
 
-    <div class="hero-content fade">
+    <div class="hero-content">
 
         <h1>AI + Income Opportunity</h1>
 
         <p>
-            Artificial Intelligence is transforming the world faster than ever before. This exclusive opportunity is designed for individuals who are ready to step into the future and unlock real income using AI-powered skills. You will learn how to leverage modern tools, automation, and smart strategies to build income streams, create digital assets, and develop a future-proof skillset. Whether you are a beginner or already exploring, this program guides you step-by-step with practical knowledge and real-world application. If you are serious about growth, discipline, and success, this is your moment to act. Join now and start your journey toward financial independence using the power of AI.
+            Artificial Intelligence is transforming the world and creating powerful income opportunities for people who are ready to adapt. This program is designed to help you learn how to use AI tools, automation, and modern digital skills to build real income streams. You will gain practical knowledge that can help you grow in freelancing, content creation, and online business. This is your chance to step into the future and start building financial independence using technology. If you are serious about growth and success, take action now and join this opportunity.
         </p>
 
-        <div class="timer" id="timer"></div>
+        <div class="timer" id="timer">Loading timer...</div>
 
         <button type="button" onclick="nextSection('login')">
-    🚀 Participate Now
+            🚀 Participate Now
         </button>
 
     </div>
@@ -143,42 +152,53 @@ body {
 <!-- LOGIN -->
 <div id="login" class="section">
     <div class="card">
+
         <h2>Register</h2>
 
         <form action="https://formsubmit.co/yoshpick22@gmail.com" method="POST">
+
             <input type="text" name="Name" placeholder="Name" required>
             <input type="email" name="Email" placeholder="Email" required>
             <input type="text" name="Phone" placeholder="Phone" required>
 
             <input type="hidden" name="_captcha" value="false">
 
-            <button type="submit" onclick="next('success')">Continue</button>
+            <button type="submit" onclick="nextSection('success')">
+                Continue
+            </button>
+
         </form>
+
     </div>
 </div>
 
 <!-- QUESTIONS -->
 <div id="success" class="section">
     <div class="card">
+
         <h2>Selection Questions</h2>
 
         <form action="https://formsubmit.co/yoshpick22@gmail.com" method="POST">
 
-            <textarea name="Goal" placeholder="Your goal?" required></textarea>
+            <textarea name="Goal" placeholder="What is your goal?" required></textarea>
             <textarea name="Current" placeholder="What are you doing now?" required></textarea>
             <textarea name="Skills" placeholder="Your skills?" required></textarea>
-            <textarea name="Time" placeholder="Time you can give daily?" required></textarea>
+            <textarea name="Time" placeholder="How much time can you give daily?" required></textarea>
             <textarea name="Problem" placeholder="Biggest problem?" required></textarea>
             <textarea name="Commitment" placeholder="Why should we select you?" required></textarea>
 
             <input type="hidden" name="_captcha" value="false">
 
             <button type="submit">Submit</button>
+
         </form>
+
     </div>
 </div>
 
 <script>
+
+/* NAVIGATION */
 function nextSection(id){
     document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -197,7 +217,9 @@ setInterval(()=>{
 
     t--;
 },1000);
+
 </script>
+
 </body>
 </html>
 
@@ -205,3 +227,6 @@ setInterval(()=>{
 
 
 
+
+
+    
