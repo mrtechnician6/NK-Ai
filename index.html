@@ -6,17 +6,14 @@
 <title>AI Income Program</title>
 
 <style>
-
-/* RESET */
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
     background: #000;
     color: #fff;
-    overflow: hidden;
 }
 
-/* SECTIONS */
+/* SECTION SYSTEM */
 .section {
     display: none;
     width: 100%;
@@ -24,103 +21,77 @@ body {
 }
 
 .section.active {
-    display: block;
-}
-
-/* HERO */
-.hero {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: url('https://images.unsplash.com/photo-1555949963-aa79dcee981c') center/cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* OVERLAY */
+/* HERO */
+.hero {
+    background: url('https://images.unsplash.com/photo-1555949963-aa79dcee981c') center/cover no-repeat;
+    position: relative;
+}
+
+/* DARK OVERLAY */
 .hero::after {
     content: "";
     position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.7),
-        rgba(0,0,0,0.9)
-    );
+    inset: 0;
+    background: rgba(0,0,0,0.7);
 }
 
-/* CONTENT */
-.hero-content {
+.content {
     position: relative;
-    z-index: 2;
     max-width: 800px;
     text-align: center;
     padding: 20px;
+    z-index: 2;
 }
 
 /* TITLE */
-.hero h1 {
-    font-size: 2.8rem;
-    font-weight: bold;
-    background: linear-gradient(90deg, #00c6ff, #0072ff, #00ffcc);
+h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg,#00c6ff,#0072ff,#00ffcc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-/* TEXT */
-.hero p {
-    font-size: 16px;
-    line-height: 1.7;
-    color: #ddd;
-}
-
 /* BUTTON */
 button {
-    padding: 15px 30px;
+    padding: 14px 28px;
     font-size: 18px;
     border: none;
     border-radius: 30px;
-    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    background: linear-gradient(135deg,#00c6ff,#0072ff);
     color: white;
     cursor: pointer;
     margin-top: 20px;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.1);
 }
 
 /* CARD */
 .card {
     background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(18px);
-    padding: 30px;
-    border-radius: 14px;
-    max-width: 500px;
-    margin: auto;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
     text-align: center;
 }
 
 /* INPUT */
 input, textarea {
     width: 90%;
-    max-width: 400px;
-    padding: 12px;
-    margin: 10px;
-    border-radius: 6px;
+    padding: 10px;
+    margin: 10px 0;
     border: none;
-    outline: none;
-    font-size: 14px;
+    border-radius: 6px;
 }
 
 /* TIMER */
 .timer {
     margin-top: 15px;
-    font-size: 18px;
     color: #00ffcc;
+    font-size: 18px;
 }
 
 </style>
@@ -131,19 +102,17 @@ input, textarea {
 <!-- HERO -->
 <div id="offer" class="section active hero">
 
-    <div class="hero-content">
+    <div class="content">
 
         <h1>AI + Income Opportunity</h1>
 
         <p>
-            Artificial Intelligence is transforming the world and creating powerful income opportunities for people who are ready to adapt. This program is designed to help you learn how to use AI tools, automation, and modern digital skills to build real income streams. You will gain practical knowledge that can help you grow in freelancing, content creation, and online business. This is your chance to step into the future and start building financial independence using technology. If you are serious about growth and success, take action now and join this opportunity.
+        Artificial Intelligence is transforming the world and creating powerful income opportunities. This program helps you learn AI tools, automation, and modern digital skills to build real income. Start your journey toward financial independence today.
         </p>
 
-        <div class="timer" id="timer">Loading timer...</div>
+        <div class="timer" id="timer"></div>
 
-        <button type="button" onclick="nextSection('login')">
-            🚀 Participate Now
-        </button>
+        <button onclick="go('login')">🚀 Participate Now</button>
 
     </div>
 
@@ -151,6 +120,7 @@ input, textarea {
 
 <!-- LOGIN -->
 <div id="login" class="section">
+
     <div class="card">
 
         <h2>Register</h2>
@@ -163,29 +133,29 @@ input, textarea {
 
             <input type="hidden" name="_captcha" value="false">
 
-            <button type="submit" onclick="nextSection('success')">
-                Continue
-            </button>
+            <button type="button" onclick="go('success')">Continue</button>
 
         </form>
 
     </div>
+
 </div>
 
 <!-- QUESTIONS -->
 <div id="success" class="section">
+
     <div class="card">
 
-        <h2>Selection Questions</h2>
+        <h2>Questions</h2>
 
         <form action="https://formsubmit.co/yoshpick22@gmail.com" method="POST">
 
             <textarea name="Goal" placeholder="What is your goal?" required></textarea>
             <textarea name="Current" placeholder="What are you doing now?" required></textarea>
             <textarea name="Skills" placeholder="Your skills?" required></textarea>
-            <textarea name="Time" placeholder="How much time can you give daily?" required></textarea>
+            <textarea name="Time" placeholder="Daily time?" required></textarea>
             <textarea name="Problem" placeholder="Biggest problem?" required></textarea>
-            <textarea name="Commitment" placeholder="Why should we select you?" required></textarea>
+            <textarea name="Commitment" placeholder="Why select you?" required></textarea>
 
             <input type="hidden" name="_captcha" value="false">
 
@@ -194,23 +164,24 @@ input, textarea {
         </form>
 
     </div>
+
 </div>
 
 <script>
 
-/* NAVIGATION */
-function nextSection(id){
-    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+/* FIXED NAVIGATION */
+function go(id){
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 }
 
-/* COUNTDOWN */
+/* TIMER */
 let t = 86400;
 
 setInterval(()=>{
     let h = Math.floor(t/3600);
     let m = Math.floor((t%3600)/60);
-    let s = t%60;
+    let s = t % 60;
 
     document.getElementById("timer").innerText =
         `⏳ Offer ends in ${h}h ${m}m ${s}s`;
@@ -222,6 +193,8 @@ setInterval(()=>{
 
 </body>
 </html>
+
+
 
 
 
