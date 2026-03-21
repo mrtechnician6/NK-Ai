@@ -6,80 +6,83 @@
 <title>AI Income Program</title>
 
 <style>
+
+/* RESET */
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at top, #0f172a, #020617);
-    color: white;
+    background: #000;
+    color: #fff;
     overflow: hidden;
 }
 
-/* PARTICLES */
-body::before {
+/* HERO BACKGROUND */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: url('https://images.unsplash.com/photo-1555949963-aa79dcee981c') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* DARK OVERLAY */
+.hero::after {
     content: "";
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url('https://www.transparenttextures.com/patterns/stardust.png');
-    opacity: 0.15;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.7),
+        rgba(0,0,0,0.9)
+    );
 }
 
-/* SCREEN */
-.section {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: none;
-    justify-content: center;
-    align-items: center;
+/* CONTENT */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
     text-align: center;
     padding: 20px;
 }
 
-.active {
-    display: flex;
+/* TITLE */
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #00c6ff, #0072ff, #00ffcc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
 }
 
-/* CARD */
-.card {
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(20px);
-    padding: 30px;
-    border-radius: 18px;
-    max-width: 520px;
-    box-shadow: 0 10px 50px rgba(0,0,0,0.5);
-    animation: fadeIn 1s ease;
+/* DESCRIPTION */
+.hero p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #ddd;
+    margin-bottom: 25px;
 }
 
 /* BUTTON */
-button {
-    padding: 15px 28px;
-    font-size: 16px;
+.hero button {
+    padding: 15px 30px;
+    font-size: 18px;
     border: none;
-    border-radius: 10px;
-    background: linear-gradient(135deg,#00c6ff,#0072ff);
+    border-radius: 30px;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
     color: white;
     cursor: pointer;
-    margin-top: 20px;
+    box-shadow: 0 0 25px rgba(0,198,255,0.6);
     transition: 0.3s;
-    box-shadow: 0 0 20px rgba(0,198,255,0.4);
 }
 
-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(0,198,255,0.7);
-}
-
-/* INPUT */
-input, textarea {
-    width: 90%;
-    padding: 12px;
-    margin: 10px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    background: rgba(255,255,255,0.1);
-    color: white;
+.hero button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px rgba(0,198,255,0.9);
 }
 
 /* TIMER */
@@ -89,27 +92,16 @@ input, textarea {
     color: #00ffcc;
 }
 
-/* ANIMATION */
-@keyframes fadeIn {
-    from {opacity:0; transform:translateY(20px);}
-    to {opacity:1; transform:translateY(0);}
+/* FADE IN */
+.fade {
+    animation: fadeUp 1.2s ease forwards;
 }
 
-/* PROGRESS BAR */
-.progress {
-    height: 5px;
-    width: 100%;
-    background: rgba(255,255,255,0.1);
-    position: absolute;
-    top: 0;
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.progress-bar {
-    height: 5px;
-    width: 0%;
-    background: linear-gradient(90deg,#00c6ff,#0072ff);
-    transition: 0.5s;
-}
 </style>
 </head>
 
@@ -118,19 +110,22 @@ input, textarea {
 <div class="progress"><div id="bar" class="progress-bar"></div></div>
 
 <!-- HERO -->
-<div id="offer" class="section active">
-    <div class="card">
+<div id="offer" class="section active hero">
 
-        <h1 id="typing"></h1>
+    <div class="hero-content fade">
+
+        <h1>AI + Income Opportunity</h1>
 
         <p>
-        Artificial Intelligence is transforming how people earn, work, and build their future. This program is designed to help you step into the world of AI and learn how to generate income using modern tools, automation, and smart strategies. Whether you are a beginner or already exploring digital skills, this opportunity gives you a clear path to grow. You will learn how to use AI for freelancing, content creation, and building scalable income systems. The goal is not just to teach, but to empower you with real-world skills that can change your financial future. Take the first step today and become part of the new generation earning with intelligence and technology.
+            Artificial Intelligence is transforming the world faster than ever before. This exclusive opportunity is designed for individuals who are ready to step into the future and unlock real income using AI-powered skills. You will learn how to leverage modern tools, automation, and smart strategies to build income streams, create digital assets, and develop a future-proof skillset. Whether you are a beginner or already exploring, this program guides you step-by-step with practical knowledge and real-world application. This is not just learning — it’s a transformation into a new way of earning. If you are serious about growth, discipline, and success, this is your moment to act. The future belongs to those who take action today. Join now and start your journey toward financial independence using the power of AI.
         </p>
 
         <div class="timer" id="timer"></div>
 
-        <button onclick="next('login')">🚀 Participate</button>
+        <button onclick="nextSection('login')">🚀 Participate Now</button>
+
     </div>
+
 </div>
 
 <!-- LOGIN -->
