@@ -117,12 +117,14 @@ body {
         <h1>AI + Income Opportunity</h1>
 
         <p>
-            Artificial Intelligence is transforming the world faster than ever before. This exclusive opportunity is designed for individuals who are ready to step into the future and unlock real income using AI-powered skills. You will learn how to leverage modern tools, automation, and smart strategies to build income streams, create digital assets, and develop a future-proof skillset. Whether you are a beginner or already exploring, this program guides you step-by-step with practical knowledge and real-world application. This is not just learning — it’s a transformation into a new way of earning. If you are serious about growth, discipline, and success, this is your moment to act. The future belongs to those who take action today. Join now and start your journey toward financial independence using the power of AI.
+            Artificial Intelligence is transforming the world faster than ever before. This exclusive opportunity is designed for individuals who are ready to step into the future and unlock real income using AI-powered skills. You will learn how to leverage modern tools, automation, and smart strategies to build income streams, create digital assets, and develop a future-proof skillset. Whether you are a beginner or already exploring, this program guides you step-by-step with practical knowledge and real-world application. If you are serious about growth, discipline, and success, this is your moment to act. Join now and start your journey toward financial independence using the power of AI.
         </p>
 
         <div class="timer" id="timer"></div>
 
-        <button onclick="nextSection('login')">🚀 Participate Now</button>
+        <button type="button" onclick="nextSection('login')">
+    🚀 Participate Now
+        </button>
 
     </div>
 
@@ -167,14 +169,9 @@ body {
 </div>
 
 <script>
-
-/* NAVIGATION */
-function next(id){
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+function nextSection(id){
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-
-    document.getElementById("bar").style.width =
-        id === "login" ? "50%" : id === "success" ? "100%" : "0%";
 }
 
 /* COUNTDOWN */
