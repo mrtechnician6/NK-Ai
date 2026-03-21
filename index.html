@@ -103,6 +103,16 @@ body {
 }
 
 </style>
+<style>
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+</style>
+
 </head>
 
 <body>
@@ -187,22 +197,7 @@ setInterval(()=>{
 
     t--;
 },1000);
-
-/* TYPING EFFECT */
-let text = "AI + Income Opportunity";
-let i = 0;
-
-function typing(){
-    if(i < text.length){
-        document.getElementById("typing").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typing,80);
-    }
-}
-typing();
-
 </script>
-
 </body>
 </html>
 
