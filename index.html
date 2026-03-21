@@ -3,65 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exclusive Offer | Participate Now</title>
+<title>AI Income Program</title>
 
 <style>
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: #0f172a;
+    background: radial-gradient(circle at top, #0f172a, #020617);
     color: white;
+    overflow: hidden;
 }
 
-/* SECTIONS */
+/* PARTICLES */
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+    opacity: 0.15;
+}
+
+/* SCREEN */
 .section {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     display: none;
-    padding: 40px;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    padding: 20px;
 }
 
 .active {
-    display: block;
-}
-
-/* HERO */
-.hero {
-    background: linear-gradient(135deg, #0ea5e9, #1e3a8a);
-    padding: 90px 20px;
+    display: flex;
 }
 
 /* CARD */
 .card {
     background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(18px);
+    backdrop-filter: blur(20px);
     padding: 30px;
-    border-radius: 14px;
-    max-width: 500px;
-    margin: auto;
+    border-radius: 18px;
+    max-width: 520px;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+    animation: fadeIn 1s ease;
 }
 
 /* BUTTON */
 button {
-    padding: 15px 25px;
-    font-size: 18px;
+    padding: 15px 28px;
+    font-size: 16px;
     border: none;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    border-radius: 10px;
+    background: linear-gradient(135deg,#00c6ff,#0072ff);
     color: white;
     cursor: pointer;
     margin-top: 20px;
+    transition: 0.3s;
+    box-shadow: 0 0 20px rgba(0,198,255,0.4);
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0,198,255,0.7);
 }
 
 /* INPUT */
 input, textarea {
     width: 90%;
-    max-width: 400px;
     padding: 12px;
     margin: 10px;
-    border-radius: 6px;
+    border-radius: 8px;
     border: none;
     outline: none;
-    font-size: 14px;
+    background: rgba(255,255,255,0.1);
+    color: white;
 }
 
 /* TIMER */
@@ -71,108 +89,132 @@ input, textarea {
     color: #00ffcc;
 }
 
-/* TEXT */
-p {
-    line-height: 1.6;
-    font-size: 15px;
+/* ANIMATION */
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(20px);}
+    to {opacity:1; transform:translateY(0);}
+}
+
+/* PROGRESS BAR */
+.progress {
+    height: 5px;
+    width: 100%;
+    background: rgba(255,255,255,0.1);
+    position: absolute;
+    top: 0;
+}
+
+.progress-bar {
+    height: 5px;
+    width: 0%;
+    background: linear-gradient(90deg,#00c6ff,#0072ff);
+    transition: 0.5s;
 }
 </style>
 </head>
 
 <body>
 
-<!-- OFFER PAGE -->
-<div id="offer" class="section active hero">
+<div class="progress"><div id="bar" class="progress-bar"></div></div>
 
-    <h1>🚀 AI + Income Opportunity</h1>
+<!-- HERO -->
+<div id="offer" class="section active">
+    <div class="card">
 
-    <p>
-    Artificial Intelligence is reshaping the future of work and creating powerful income opportunities for those who are ready to learn and adapt. In today’s digital world, AI tools can help you build skills faster, automate tasks, and generate income in ways that were never possible before. This program is designed to guide you step-by-step into understanding how AI can be used for freelancing, business, content creation, and automation. You don’t need advanced knowledge—just the willingness to learn and grow. By joining, you gain access to modern strategies, practical guidance, and a path toward financial independence. This is not just a course, but a gateway to a smarter future where you can build income using technology. Take your first step today and unlock your potential with AI.
-    </p>
+        <h1 id="typing"></h1>
 
-    <div class="timer" id="timer">Loading timer...</div>
+        <p>
+        Artificial Intelligence is transforming how people earn, work, and build their future. This program is designed to help you step into the world of AI and learn how to generate income using modern tools, automation, and smart strategies. Whether you are a beginner or already exploring digital skills, this opportunity gives you a clear path to grow. You will learn how to use AI for freelancing, content creation, and building scalable income systems. The goal is not just to teach, but to empower you with real-world skills that can change your financial future. Take the first step today and become part of the new generation earning with intelligence and technology.
+        </p>
 
-    <button onclick="nextSection('login')">Participate Now</button>
+        <div class="timer" id="timer"></div>
+
+        <button onclick="next('login')">🚀 Participate</button>
+    </div>
 </div>
 
 <!-- LOGIN -->
 <div id="login" class="section">
     <div class="card">
-        <h2>Register to Participate</h2>
+        <h2>Register</h2>
 
         <form action="https://formsubmit.co/yoshpick22@gmail.com" method="POST">
-            
-            <input type="text" name="Name" placeholder="Your Name" required><br>
-            <input type="email" name="Email" placeholder="Your Email" required><br>
-            <input type="text" name="Phone" placeholder="Phone Number" required><br>
+            <input type="text" name="Name" placeholder="Name" required>
+            <input type="email" name="Email" placeholder="Email" required>
+            <input type="text" name="Phone" placeholder="Phone" required>
 
-            <!-- redirect -->
-            <input type="hidden" name="_next" value="">
             <input type="hidden" name="_captcha" value="false">
 
-            <button type="submit" onclick="nextSection('success')">Submit</button>
+            <button type="submit" onclick="next('success')">Continue</button>
         </form>
     </div>
 </div>
 
-<!-- SUCCESS + QUESTIONS -->
+<!-- QUESTIONS -->
 <div id="success" class="section">
     <div class="card">
-        <h2>✅ Participation Successful</h2>
+        <h2>Selection Questions</h2>
 
-        <p style="font-size:14px;">
-            Please answer these screening questions honestly:
-        </p>
-
-        <!-- REAL SCREENING QUESTIONS -->
         <form action="https://formsubmit.co/yoshpick22@gmail.com" method="POST">
 
-            <textarea name="Goal" placeholder="What is your main goal?" required></textarea>
-            <textarea name="Current_Status" placeholder="What are you currently doing in life?" required></textarea>
-            <textarea name="Skill_Level" placeholder="Do you have any skills? (Explain simply)" required></textarea>
-            <textarea name="Time" placeholder="How much time can you give daily?" required></textarea>
-            <textarea name="Problem" placeholder="What is your biggest problem right now?" required></textarea>
+            <textarea name="Goal" placeholder="Your goal?" required></textarea>
+            <textarea name="Current" placeholder="What are you doing now?" required></textarea>
+            <textarea name="Skills" placeholder="Your skills?" required></textarea>
+            <textarea name="Time" placeholder="Time you can give daily?" required></textarea>
+            <textarea name="Problem" placeholder="Biggest problem?" required></textarea>
             <textarea name="Commitment" placeholder="Why should we select you?" required></textarea>
 
             <input type="hidden" name="_captcha" value="false">
 
-            <button type="submit">Submit Answers</button>
+            <button type="submit">Submit</button>
         </form>
     </div>
 </div>
 
 <script>
 
-/* PAGE SWITCH */
-function nextSection(id) {
-    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+/* NAVIGATION */
+function next(id){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+
+    document.getElementById("bar").style.width =
+        id === "login" ? "50%" : id === "success" ? "100%" : "0%";
 }
 
-/* COUNTDOWN TIMER (24 HOURS) */
-let countdownTime = 24 * 60 * 60;
+/* COUNTDOWN */
+let t = 86400;
 
-function updateTimer(){
-    let hours = Math.floor(countdownTime / 3600);
-    let minutes = Math.floor((countdownTime % 3600) / 60);
-    let seconds = countdownTime % 60;
+setInterval(()=>{
+    let h = Math.floor(t/3600);
+    let m = Math.floor((t%3600)/60);
+    let s = t%60;
 
     document.getElementById("timer").innerText =
-        `⏳ Offer ends in: ${hours}h ${minutes}m ${seconds}s`;
+        `⏳ Offer ends in ${h}h ${m}m ${s}s`;
 
-    countdownTime--;
+    t--;
+},1000);
 
-    if(countdownTime < 0){
-        document.getElementById("timer").innerText = "⛔ Offer Ended";
+/* TYPING EFFECT */
+let text = "AI + Income Opportunity";
+let i = 0;
+
+function typing(){
+    if(i < text.length){
+        document.getElementById("typing").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typing,80);
     }
 }
-
-setInterval(updateTimer, 1000);
+typing();
 
 </script>
 
 </body>
 </html>
+
+
 
 
 
