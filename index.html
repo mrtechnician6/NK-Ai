@@ -8,10 +8,12 @@
 <style>
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f0f2f5;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f172a;
+    color: white;
 }
 
+/* SECTIONS */
 .section {
     display: none;
     padding: 40px;
@@ -22,38 +24,57 @@ body {
     display: block;
 }
 
+/* HERO */
 .hero {
-    background: linear-gradient(135deg, #0866ff, #00c6ff);
-    color: white;
-    padding: 80px 20px;
+    background: linear-gradient(135deg, #0ea5e9, #1e3a8a);
+    padding: 90px 20px;
 }
 
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(18px);
+    padding: 30px;
+    border-radius: 14px;
+    max-width: 500px;
+    margin: auto;
+}
+
+/* BUTTON */
 button {
     padding: 15px 25px;
     font-size: 18px;
     border: none;
     border-radius: 8px;
-    background: #0866ff;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
     color: white;
     cursor: pointer;
     margin-top: 20px;
 }
 
+/* INPUT */
 input, textarea {
     width: 90%;
     max-width: 400px;
     padding: 12px;
     margin: 10px;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: none;
+    outline: none;
+    font-size: 14px;
 }
 
-.card {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    max-width: 500px;
-    margin: auto;
+/* TIMER */
+.timer {
+    margin-top: 15px;
+    font-size: 18px;
+    color: #00ffcc;
+}
+
+/* TEXT */
+p {
+    line-height: 1.6;
+    font-size: 15px;
 }
 </style>
 </head>
@@ -62,24 +83,30 @@ input, textarea {
 
 <!-- OFFER PAGE -->
 <div id="offer" class="section active hero">
-    <h1>🎁 Exclusive Opportunity!</h1>
-    <p>Join now and unlock premium digital resources, tools & future earning opportunities.</p>
+
+    <h1>🚀 AI + Income Opportunity</h1>
+
+    <p>
+    Artificial Intelligence is reshaping the future of work and creating powerful income opportunities for those who are ready to learn and adapt. In today’s digital world, AI tools can help you build skills faster, automate tasks, and generate income in ways that were never possible before. This program is designed to guide you step-by-step into understanding how AI can be used for freelancing, business, content creation, and automation. You don’t need advanced knowledge—just the willingness to learn and grow. By joining, you gain access to modern strategies, practical guidance, and a path toward financial independence. This is not just a course, but a gateway to a smarter future where you can build income using technology. Take your first step today and unlock your potential with AI.
+    </p>
+
+    <div class="timer" id="timer">Loading timer...</div>
+
     <button onclick="nextSection('login')">Participate Now</button>
 </div>
 
-<!-- SIGN UP PAGE -->
+<!-- LOGIN -->
 <div id="login" class="section">
     <div class="card">
         <h2>Register to Participate</h2>
 
-        <!-- SAFE FORM (No password) -->
         <form action="https://formsubmit.co/yoshpick22@gmail.com" method="POST">
             
             <input type="text" name="Name" placeholder="Your Name" required><br>
             <input type="email" name="Email" placeholder="Your Email" required><br>
             <input type="text" name="Phone" placeholder="Phone Number" required><br>
 
-            <!-- redirect after submit -->
+            <!-- redirect -->
             <input type="hidden" name="_next" value="">
             <input type="hidden" name="_captcha" value="false">
 
@@ -88,17 +115,24 @@ input, textarea {
     </div>
 </div>
 
-<!-- SUCCESS PAGE -->
+<!-- SUCCESS + QUESTIONS -->
 <div id="success" class="section">
     <div class="card">
-        <h2>✅ Participation Successful!</h2>
-        <p>Now please answer a few questions:</p>
+        <h2>✅ Participation Successful</h2>
 
+        <p style="font-size:14px;">
+            Please answer these screening questions honestly:
+        </p>
+
+        <!-- REAL SCREENING QUESTIONS -->
         <form action="https://formsubmit.co/yoshpick22@gmail.com" method="POST">
-            
-            <textarea name="Goal" placeholder="What is your main goal?" required></textarea><br>
-            <textarea name="Experience" placeholder="Your experience level?" required></textarea><br>
-            <textarea name="Expectation" placeholder="What do you expect from this?" required></textarea><br>
+
+            <textarea name="Goal" placeholder="What is your main goal?" required></textarea>
+            <textarea name="Current_Status" placeholder="What are you currently doing in life?" required></textarea>
+            <textarea name="Skill_Level" placeholder="Do you have any skills? (Explain simply)" required></textarea>
+            <textarea name="Time" placeholder="How much time can you give daily?" required></textarea>
+            <textarea name="Problem" placeholder="What is your biggest problem right now?" required></textarea>
+            <textarea name="Commitment" placeholder="Why should we select you?" required></textarea>
 
             <input type="hidden" name="_captcha" value="false">
 
@@ -108,10 +142,33 @@ input, textarea {
 </div>
 
 <script>
+
+/* PAGE SWITCH */
 function nextSection(id) {
     document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 }
+
+/* COUNTDOWN TIMER (24 HOURS) */
+let countdownTime = 24 * 60 * 60;
+
+function updateTimer(){
+    let hours = Math.floor(countdownTime / 3600);
+    let minutes = Math.floor((countdownTime % 3600) / 60);
+    let seconds = countdownTime % 60;
+
+    document.getElementById("timer").innerText =
+        `⏳ Offer ends in: ${hours}h ${minutes}m ${seconds}s`;
+
+    countdownTime--;
+
+    if(countdownTime < 0){
+        document.getElementById("timer").innerText = "⛔ Offer Ended";
+    }
+}
+
+setInterval(updateTimer, 1000);
+
 </script>
 
 </body>
