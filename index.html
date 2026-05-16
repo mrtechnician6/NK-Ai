@@ -558,12 +558,822 @@
   .big-hookah .hookah-stem { width:12px; height:110px; bottom:65px; }
   .big-hookah .hookah-bowl { width:50px; height:35px; }
 
+  
+
   /* LOCATION */
   #location {
     background:var(--dark); padding:100px 5%;
   }
   .location-grid {
-    display:grid; grid-template-column
+    display:grid; grid-template-columns:1fr 1fr; gap:60px;
+    margin-top:50px; align-items:start;
+  }
+  .map-placeholder {
+    height:380px; background:rgba(255,255,255,0.02);
+    border:1px solid rgba(200,130,10,0.15);
+    border-radius:4px; overflow:hidden; position:relative;
+    display:flex; align-items:center; justify-content:center;
+  }
+  #mapCanvas { width:100%; height:100%; }
+  .location-info { display:flex; flex-direction:column; gap:28px; }
+  .info-row { display:flex; gap:16px; align-items:flex-start; }
+  .info-icon {
+    width:40px; height:40px; flex-shrink:0;
+    border:1px solid rgba(200,130,10,0.3);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; color:var(--amber);
+  }
+  .info-content label {
+    font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase;
+    color:rgba(245,230,200,0.35); display:block; margin-bottom:4px;
+  }
+  .info-content p {
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.1rem; color:var(--cream); line-height:1.5;
+  }
+  .hours-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px 20px; }
+  .hour-row {
+    display:flex; justify-content:space-between;
+    font-family:'Cormorant Garamond',serif; font-size:1rem;
+    color:rgba(245,230,200,0.6); padding:4px 0;
+    border-bottom:1px solid rgba(245,230,200,0.06);
+  }
+  .hour-row .day { color:rgba(245,230,200,0.4); font-size:0.9rem; }
+  .hour-row .time { color:var(--cream); }
 
+  /* FOOTER */
+  footer {
+    background:var(--black);
+    border-top:1px solid rgba(200,130,10,0.15);
+    padding:60px 5% 30px;
+  }
+  .footer-top {
+    display:grid; grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:50px; margin-bottom:50px;
+  }
+  .footer-brand .logo { font-size:1.6rem; margin-bottom:12px; display:block; }
+  .footer-desc {
+    font-family:'Cormorant Garamond',serif;
+    font-size:1rem; color:rgba(245,230,200,0.4); line-height:1.7;
+  }
+  .footer-col h4 {
+    font-family:'Cinzel',serif; font-size:0.7rem;
+    letter-spacing:0.3em; text-transform:uppercase;
+    color:var(--amber); margin-bottom:16px;
+  }
+  .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .footer-col ul li a {
+    font-size:0.88rem; color:rgba(245,230,200,0.4);
+    text-decoration:none; transition:color 0.3s;
+    font-family:'Cormorant Garamond',serif; font-size:1rem;
+  }
+  .footer-col ul li a:hover { color:var(--gold); }
+  .social-row { display:flex; gap:12px; margin-top:20px; }
+  .social-btn {
+    width:36px; height:36px; border:1px solid rgba(200,130,10,0.2);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.85rem; color:rgba(245,230,200,0.4);
+    text-decoration:none; transition:all 0.3s;
+  }
+  .social-btn:hover { border-color:var(--amber); color:var(--gold); }
+  .footer-bottom {
+    border-top:1px solid rgba(245,230,200,0.06); padding-top:24px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .footer-bottom p {
+    font-size:0.72rem; color:rgba(245,230,200,0.25);
+    letter-spacing:0.1em;
+  }
+  .footer-bottom span { color:var(--amber); }
+  /* RESERVATION BANNER */
+  #reserve {
+    background: linear-gradient(135deg, rgba(200,130,10,0.15), rgba(100,50,5,0.1));
+    border-top:1px solid rgba(200,130,10,0.2);
+    border-bottom:1px solid rgba(200,130,10,0.2);
+    padding:80px 5%;
+    text-align:center;
+  }
+  .reserve-title {
+    font-family:'Playfair Display',serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    color:var(--cream); margin-bottom:1rem;
+  }
+  .reserve-sub {
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.3rem; color:rgba(245,230,200,0.5);
+    margin-bottom:2.5rem; font-style:italic;
+  }
+
+  /* KEYFRAMES */
+  @keyframes fadeUp {
+    from{opacity:0;transform:translateY(30px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  @keyframes fadeIn {
+    from{opacity:0} to{opacity:1}
+  }
+
+  /* INTERSECTION OBSERVER reveals */
+  .reveal {
+    opacity:0; transform:translateY(40px);
+    transition: opacity 0.8s, transform 0.8s;
+  }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  .reveal-left {
+    opacity:0; transform:translateX(-40px);
+    transition: opacity 0.8s, transform 0.8s;
+  }
+  .reveal-left.visible { opacity:1; transform:translateX(0); }
+
+  /* Responsive */
+  @media(max-width:900px){
+    #about,#hookah,#location .location-grid { grid-template-columns:1fr; }
+    #vibe { grid-template-columns:1fr; }
+    .gallery-grid { grid-template-columns:1fr 1fr; grid-template-rows:200px 200px 200px; }
+    .gallery-card:nth-child(1) { grid-row:auto; }
+    .footer-top { grid-template-columns:1fr 1fr; }
+    #cups-scene { display:none; }
+    .hero-title { font-size:3.5rem; }
+    nav .nav-links { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSORS -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">CHIYA <span>LIGHTER</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#hookah">Hookah</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#location">Find Us</a></li>
+  </ul>
+  <a href="#reserve" class="nav-cta">Reserve</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <canvas id="particles"></canvas>
+
+  <!-- 3D floating cups -->
+  <div id="cups-scene">
+    <div class="cup-wrapper">
+      <div class="cup3d">
+        <div class="steam">
+          <div class="steam-line"></div>
+          <div class="steam-line"></div>
+          <div class="steam-line"></div>
+        </div>
+        <div class="cup-rim"></div>
+        <div class="cup-liquid"></div>
+        <div class="cup-body"></div>
+        <div class="cup-handle"></div>
+      </div>
+      <div class="cup-label">Chiya</div>
+    </div>
+    <div class="cup-wrapper">
+      <div class="cup3d tea">
+        <div class="steam">
+          <div class="steam-line"></div>
+          <div class="steam-line"></div>
+          <div class="steam-line"></div>
+        </div>
+        <div class="cup-rim"></div>
+        <div class="cup-liquid"></div>
+        <div class="cup-body"></div>
+        <div class="cup-handle"></div>
+      </div>
+      <div class="cup-label">Green Tea</div>
+    </div>
+    <div class="cup-wrapper">
+      <div class="hookah3d" style="transform:scale(1.3)">
+        <div class="hookah-bowl"></div>
+        <div class="hookah-smoke">
+          <div class="steam-line"></div>
+          <div class="steam-line"></div>
+        </div>
+        <div class="hookah-stem"></div>
+        <div class="hookah-base"></div>
+        <div class="hookah-hose"></div>
+      </div>
+      <div class="cup-label" style="margin-top:16px">Hookah</div>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">✦ Budhanilkantha · Kapan · Kathmandu ✦</p>
+    <h1 class="hero-title">
+      Chiya<br><span class="accent">Lighter</span>
+    </h1>
+    <p class="hero-sub">Where every sip tells a story</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-primary"><span>Explore Menu</span></a>
+      <a href="#location" class="btn-outline">Find Us</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+ <!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>Masala Chiya</span><span class="ticker-dot">◆</span>
+    <span>Cold Brew Coffee</span><span class="ticker-dot">◆</span>
+    <span>Premium Hookah</span><span class="ticker-dot">◆</span>
+    <span>Lemon Ginger Tea</span><span class="ticker-dot">◆</span>
+    <span>Momos & Snacks</span><span class="ticker-dot">◆</span>
+    <span>Cappuccino</span><span class="ticker-dot">◆</span>
+    <span>Butter Tea</span><span class="ticker-dot">◆</span>
+    <span>Fruit Shakes</span><span class="ticker-dot">◆</span>
+    <!-- duplicate for seamless loop -->
+    <span>Masala Chiya</span><span class="ticker-dot">◆</span>
+    <span>Cold Brew Coffee</span><span class="ticker-dot">◆</span>
+    <span>Premium Hookah</span><span class="ticker-dot">◆</span>
+    <span>Lemon Ginger Tea</span><span class="ticker-dot">◆</span>
+    <span>Momos & Snacks</span><span class="ticker-dot">◆</span>
+    <span>Cappuccino</span><span class="ticker-dot">◆</span>
+    <span>Butter Tea</span><span class="ticker-dot">◆</span>
+    <span>Fruit Shakes</span><span class="ticker-dot">◆</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual reveal-left">
+    <div class="about-ring"></div>
+    <div class="about-ring"></div>
+    <div class="about-center">
+      <div class="big-cup">
+        <div class="big-steam">
+          <div class="steam-line"></div>
+          <div class="steam-line"></div>
+          <div class="steam-line"></div>
+        </div>
+        <div class="cup-rim"></div>
+        <div class="cup-liquid"></div>
+        <div class="cup-body"></div>
+        <div class="cup-handle"></div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal">
+    <span class="section-label">✦ Our Story</span>
+    <h2 class="section-title">More Than a Café.<br><em>A Sanctuary.</em></h2>
+    <p class="section-body">
+      Nestled in the heart of Kapan, Budhanilkantha, Chiya Lighter was born 
+      from a simple belief — that the best conversations happen over the perfect cup. 
+      Whether you crave the warmth of masala chiya, the depth of single-origin coffee, 
+      or the calm of an evening hookah session, we have crafted a space for you.
+    </p>
+    <div class="about-stats">
+      <div class="stat">
+        <span class="stat-num">35+</span>
+        <span class="stat-label">Menu Items</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">12+</span>
+        <span class="stat-label">Hookah Flavors</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">500+</span>
+        <span class="stat-label">Happy Guests/Week</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIBE CARDS -->
+<div id="vibe">
+  <div class="vibe-card reveal">
+    <div class="vibe-number">01</div>
+    <div class="vibe-icon">☕</div>
+    <h3 class="vibe-title">Warm Ambiance</h3>
+    <p class="vibe-desc">Warm Edison lighting, wooden textures, and plush seating — your second living room in Kapan.</p>
+  </div>
+  <div class="vibe-card reveal" style="transition-delay:0.15s">
+    <div class="vibe-number">02</div>
+    <div class="vibe-icon">🎵</div>
+    <h3 class="vibe-title">Curated Playlists</h3>
+    <p class="vibe-desc">Lofi beats, Nepali acoustics, and evening jazz — every mood has its soundtrack at Chiya Lighter.</p>
+  </div>
+  <div class="vibe-card reveal" style="transition-delay:0.3s">
+    <div class="vibe-number">03</div>
+    <div class="vibe-icon">🌿</div>
+    <h3 class="vibe-title">Rooftop Seating</h3>
+    <p class="vibe-desc">Breathe in the mountain air. Our open rooftop is the perfect backdrop for sunset chiya with friends.</p>
+  </div>
+</div>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-header reveal">
+    <span class="section-label">✦ Our Offerings</span>
+    <h2 class="section-title">The <em>Menu</em></h2>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(245,230,200,0.4);margin-top:10px">
+      Crafted with care · Served with warmth
+    </p>
+  </div>
+
+  <div class="menu-tabs reveal">
+    <button class="tab-btn active" onclick="switchTab('chiya')">☕ Chiya & Tea</button>
+    <button class="tab-btn" onclick="switchTab('coffee')">☕ Coffee</button>
+    <button class="tab-btn" onclick="switchTab('hookah-menu')">💨 Hookah</button>
+    <button class="tab-btn" onclick="switchTab('snacks')">🍽 Snacks</button>
+    <button class="tab-btn" onclick="switchTab('drinks')">🥤 Cold Drinks</button>
+  </div>
+
+  <!-- Chiya & Tea -->
+  <div class="menu-grid active" id="tab-chiya">
+    <div class="menu-item"><div class="item-icon">🍵</div><h3 class="item-name">Masala Chiya</h3><p class="item-desc">Classic Nepali milk tea brewed with cardamom, ginger, and aromatic spices.</p><span class="item-price">Rs. 40</span><span class="item-tag">Bestseller</span></div>
+    <div class="menu-item"><div class="item-icon">🌿</div><h3 class="item-name">Lemon Ginger Tea</h3><p class="item-desc">Refreshing infusion with fresh lemon zest, ginger, and honey.</p><span class="item-price">Rs. 60</span></div>
+    <div class="menu-item"><div class="item-icon">🍵</div><h3 class="item-name">Green Tea</h3><p class="item-desc">Premium green leaves for a clean, antioxidant-rich experience.</p><span class="item-price">Rs. 60</span></div>
+    <div class="menu-item"><div class="item-icon">🧡</div><h3 class="item-name">Butter Tea (Po Cha)</h3><p class="item-desc">Traditional Himalayan butter tea — salty, creamy, deeply warming.</p><span class="item-price">Rs. 80</span><span class="item-tag">Special</span></div>
+    <div class="menu-item"><div class="item-icon">🌺</div><h3 class="item-name">Chamomile Tea</h3><p class="item-desc">Delicate floral infusion perfect for calming evenings.</p><span class="item-price">Rs. 80</span></div>
+    <div class="menu-item"><div class="item-icon">🍵</div><h3 class="item-name">Tulsi Mint Tea</h3><p class="item-desc">Sacred basil and mint brewed fresh — Nepal in every cup.</p><span class="item-price">Rs. 70</span></div>
+  </div>
+
+  <!-- Coffee -->
+  <div class="menu-grid" id="tab-coffee">
+    <div class="menu-item"><div class="item-icon">☕</div><h3 class="item-name">Espresso</h3><p class="item-desc">Rich double-shot espresso with a golden crema — pure intensity.</p><span class="item-price">Rs. 120</span></div>
+    <div class="menu-item"><div class="item-icon">☕</div><h3 class="item-name">Cappuccino</h3><p class="item-desc">Velvety steamed milk foam atop a bold espresso shot.</p><span class="item-price">Rs. 150</span><span class="item-tag">Fav</span></div>
+    <div class="menu-item"><div class="item-icon">☕</div><h3 class="item-name">Caramel Latte</h3><p class="item-desc">Smooth espresso with creamy milk and buttery caramel drizzle.</p><span class="item-price">Rs. 180</span></div>
+    <div class="menu-item"><div class="item-icon">🧊</div><h3 class="item-name">Cold Brew</h3><p class="item-desc">12-hour steeped cold coffee — deep, smooth, refreshing.</p><span class="item-price">Rs. 200</span><span class="item-tag">New</span></div>
+    <div class="menu-item"><div class="item-icon">☕</div><h3 class="item-name">Americano</h3><p class="item-desc">Bold espresso stretched with hot water to pure clarity.</p><span class="item-price">Rs. 130</span></div>
+    <div class="menu-item"><div class="item-icon">🍫</div><h3 class="item-name">Mocha</h3><p class="item-desc">Dark chocolate meets espresso — an indulgent classic.</p><span class="item-price">Rs. 170</span></div>
+  </div>
+
+  <!-- Hookah -->
+  <div class="menu-grid" id="tab-hookah-menu">
+    <div class="menu-item"><div class="item-icon">💨</div><h3 class="item-name">Double Apple</h3><p class="item-desc">The timeless classic — crisp apple layers with a subtle mint finish.</p><span class="item-price">Rs. 500</span><span class="item-tag">Classic</span></div>
+    <div class="menu-item"><div class="item-icon">🍋</div><h3 class="item-name">Lemon Mint</h3><p class="item-desc">Citrus burst meets cool menthol — invigorating from first cloud.</p><span class="item-price">Rs. 500</span></div>
+    <div class="menu-item"><div class="item-icon">🍇</div><h3 class="item-name">Grape Mint</h3><p class="item-desc">Rich purple grape with a refreshing icy mint undertone.</p><span class="item-price">Rs. 550</span></div>
+    <div class="menu-item"><div class="item-icon">🌹</div><h3 class="item-name">Rose Blend</h3><p class="item-desc">Floral and exotic — a premium rose shisha for special evenings.</p><span class="item-price">Rs. 600</span><span class="item-tag">Premium</span></div>
+    <div class="menu-item"><div class="item-icon">🍑</div><h3 class="item-name">Peach Paradise</h3><p class="item-desc">Sweet peach clouds with velvety smooth draws.</p><span class="item-price">Rs. 550</span></div>
+    <div class="menu-item"><div class="item-icon">🌀</div><h3 class="item-name">Mystery Mix</h3><p class="item-desc">Our signature blend — a rotating surprise curated by our specialists.</p><span class="item-price">Rs. 650</span><span class="item-tag">Exclusive</span></div>
+  </div>
+
+  <!-- Snacks -->
+  <div class="menu-grid" id="tab-snacks">
+    <div class="menu-item"><div class="item-icon">🥟</div><h3 class="item-name">Veg Momos</h3><p class="item-desc">Steamed dumplings with mixed vegetable filling and spicy achar.</p><span class="item-price">Rs. 120</span><span class="item-tag">Bestseller</span></div>
+    <div class="menu-item"><div class="item-icon">🥟</div><h3 class="item-name">Chicken Momos</h3><p class="item-desc">Juicy minced chicken wrapped in thin dough — comfort in a bite.</p><span class="item-price">Rs. 150</span></div>
+    <div class="menu-item"><div class="item-icon">🍞</div><h3 class="item-name">Cheese Toast</h3><p class="item-desc">Thick-cut toast with melted cheese and herbs, golden brown.</p><span class="item-price">Rs. 130</span></div>
+    <div class="menu-item"><div class="item-icon">🍜</div><h3 class="item-name">Wai Wai Sadeko</h3><p class="item-desc">Spicy Nepali instant noodle salad with fresh herbs and lemon.</p><span class="item-price">Rs. 100</span></div>
+    <div class="menu-item"><div class="item-icon">🥗</div><h3 class="item-name">Chatpate</h3><p class="item-desc">The beloved Nepali street snack — crunchy, tangy, spicy perfection.</p><span class="item-price">Rs. 80</span></div>
+    <div class="menu-item"><div class="item-icon">🍟</div><h3 class="item-name">French Fries</h3><p class="item-desc">Crispy golden fries with homemade dipping sauce.</p><span class="item-price">Rs. 130</span></div>
+  </div>
+
+  <!-- Cold Drinks -->
+  <div class="menu-grid" id="tab-drinks">
+    <div class="menu-item"><div class="item-icon">🥭</div><h3 class="item-name">Mango Lassi</h3><p class="item-desc">Thick, creamy Alphonso mango blended with chilled yogurt.</p><span class="item-price">Rs. 160</span><span class="item-tag">Seasonal</span></div>
+    <div class="menu-item"><div class="item-icon">🍓</div><h3 class="item-name">Strawberry Shake</h3><p class="item-desc">Blended fresh strawberries with cold milk and a hint of vanilla.</p><span class="item-price">Rs. 180</span></div>
+    <div class="menu-item"><div class="item-icon">🍋</div><h3 class="item-name">Virgin Mojito</h3><p class="item-desc">Sparkling lime and mint refresher — fizzy, cool, unforgettable.</p><span class="item-price">Rs. 150</span></div>
+    <div class="menu-item"><div class="item-icon">🍍</div><h3 class="item-name">Tropical Punch</h3><p class="item-desc">Pineapple, passion fruit, and coconut blended to paradise.</p><span class="item-price">Rs. 170</span></div>
+    <div class="menu-item"><div class="item-icon">🫐</div><h3 class="item-name">Blueberry Soda</h3><p class="item-desc">House-made blueberry syrup with sparkling water and basil seeds.</p><span class="item-price">Rs. 140</span></div>
+    <div class="menu-item"><div class="item-icon">🥤</div><h3 class="item-name">Iced Lemon Tea</h3><p class="item-desc">Chilled black tea with lemon, mint, and a pinch of salt.</p><span class="item-price">Rs. 100</span></div>
+  </div>
+</section>
+
+<!-- HOOKAH SECTION -->
+<section id="hookah">
+  <div class="reveal">
+    <span class="section-label">✦ Premium Experience</span>
+    <h2 class="section-title">The Art of<br><em>Hookah</em></h2>
+    <p class="section-body">
+      Our hookah lounge offers a curated collection of premium shisha flavors 
+      from across the world. Each session is prepared by our expert hookah 
+      specialists, ensuring perfect heat management and thick, flavorful clouds. 
+      Available every evening from 5 PM.
+    </p>
+    <div class="about-stats" style="margin-top:2rem">
+      <div class="stat">
+        <span class="stat-num">12+</span>
+        <span class="stat-label">Flavors</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">2hrs</span>
+        <span class="stat-label">Session Duration</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">Rs.500</span>
+        <span class="stat-label">Starting Price</span>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap">
+      <div style="padding:8px 20px;border:1px solid rgba(140,80,200,0.3);font-size:0.72rem;letter-spacing:0.15em;color:rgba(200,150,255,0.7)">DOUBLE APPLE</div>
+      <div style="padding:8px 20px;border:1px solid rgba(140,80,200,0.3);font-size:0.72rem;letter-spacing:0.15em;color:rgba(200,150,255,0.7)">LEMON MINT</div>
+      <div style="padding:8px 20px;border:1px solid rgba(140,80,200,0.3);font-size:0.72rem;letter-spacing:0.15em;color:rgba(200,150,255,0.7)">ROSE BLEND</div>
+      <div style="padding:8px 20px;border:1px solid rgba(140,80,200,0.3);font-size:0.72rem;letter-spacing:0.15em;color:rgba(200,150,255,0.7)">GRAPE MINT</div>
+    </div>
+  </div>
+
+  <div class="hookah-visual reveal">
+    <div class="hookah-glow"></div>
+    <div class="big-hookah hookah3d">
+      <div class="hookah-bowl"></div>
+      <div class="hookah-smoke">
+        <div class="steam-line" style="height:60px;animation-delay:0s;width:4px;background:linear-gradient(to top,rgba(140,80,200,0.6),transparent)"></div>
+        <div class="steam-line" style="height:80px;animation-delay:0.6s;width:5px;background:linear-gradient(to top,rgba(140,80,200,0.5),transparent)"></div>
+        <div class="steam-line" style="height:55px;animation-delay:1.2s;width:3px;background:linear-gradient(to top,rgba(140,80,200,0.4),transparent)"></div>
+      </div>
+      <div class="hookah-stem"></div>
+      <div class="hookah-base"></div>
+      <div class="hookah-hose"></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="reveal" style="text-align:center;margin-bottom:20px">
+    <span class="section-label">✦ Our Space</span>
+    <h2 class="section-title">The <em>Atmosphere</em></h2>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gallery-card">
+      <canvas class="gallery-canvas" id="galleryCanvas1"></canvas>
+      <div class="gallery-overlay"><span class="gallery-label">Interior</span></div>
+    </div>
+    <div class="gallery-card">
+      <canvas class="gallery-canvas" id="galleryCanvas2"></canvas>
+      <div class="gallery-overlay"><span class="gallery-label">Chiya Corner</span></div>
+    </div>
+    <div class="gallery-card">
+      <canvas class="gallery-canvas" id="galleryCanvas3"></canvas>
+      <div class="gallery-overlay"><span class="gallery-label">Evening Hookah</span></div>
+    </div>
+    <div class="gallery-card">
+      <canvas class="gallery-canvas" id="galleryCanvas4"></canvas>
+      <div class="gallery-overlay"><span class="gallery-label">Rooftop View</span></div>
+    </div>
+    <div class="gallery-card">
+      <canvas class="gallery-canvas" id="galleryCanvas5"></canvas>
+      <div class="gallery-overlay"><span class="gallery-label">Coffee Bar</span></div>
+    </div>
+  </div>
+                                 </section>
+  <!-- RESERVATION -->
+<section id="reserve">
+  <span class="section-label">✦ Book A Table</span>
+  <h2 class="reserve-title reveal">Reserve Your <em>Evening</em></h2>
+  <p class="reserve-sub reveal">Call us or walk in — we're always ready to welcome you</p>
+  <div class="hero-btns reveal">
+    <a href="tel:+977XXXXXXXXXX" class="btn-primary"><span>📞 Call Now</span></a>
+    <a href="https://wa.me/977XXXXXXXXXX" class="btn-outline">💬 WhatsApp</a>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="reveal">
+    <span class="section-label">✦ Visit Us</span>
+    <h2 class="section-title">Find <em>Chiya Lighter</em></h2>
+  </div>
+  <div class="location-grid">
+    <div class="map-placeholder reveal">
+      <canvas id="mapCanvas"></canvas>
+    </div>
+    <div class="location-info reveal">
+      <div class="info-row">
+        <div class="info-icon">📍</div>
+        <div class="info-content">
+          <label>Address</label>
+          <p>Kapan Ektabasti, Budhanilkantha<br>Kathmandu, Nepal</p>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📞</div>
+        <div class="info-content">
+          <label>Contact</label>
+          <p>+977 — — — — — — —</p>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📱</div>
+        <div class="info-content">
+          <label>Social</label>
+          <p>@chiyalighter · Facebook · Instagram</p>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🕐</div>
+        <div class="info-content">
+          <label>Opening Hours</label>
+          <div class="hours-grid">
+            <div class="hour-row"><span class="day">Sun – Fri</span><span class="time">7 AM – 10 PM</span></div>
+            <div class="hour-row"><span class="day">Saturday</span><span class="time">8 AM – 11 PM</span></div>
+            <div class="hour-row"><span class="day">Hookah</span><span class="time">5 PM – Close</span></div>
+            <div class="hour-row"><span class="day">Holidays</span><span class="time">Open Always</span></div>
+          </div>
+        </div>
+      </div>
+      <a href="https://maps.google.com/?q=Kapan+Budhanilkantha+Kathmandu" target="_blank" class="btn-primary" style="width:fit-content"><span>🗺 Open in Google Maps</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="logo">CHIYA <span>LIGHTER</span></span>
+      <p class="footer-desc">A cozy sanctuary of flavors in the heart of Kapan, Budhanilkantha. Every cup, every cloud — crafted with love.</p>
+      <div class="social-row">
+        <a href="#" class="social-btn">f</a>
+        <a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">▶</a>
+        <a href="#" class="social-btn">✉</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#menu">Chiya & Tea</a></li>
+        <li><a href="#menu">Coffee</a></li>
+        <li><a href="#hookah">Hookah</a></li>
+        <li><a href="#menu">Snacks</a></li>
+        <li><a href="#menu">Cold Drinks</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Experience</h4>
+      <ul>
+        <li><a href="#">Rooftop Seating</a></li>
+        <li><a href="#">Private Lounge</a></li>
+        <li><a href="#">Events & Gatherings</a></li>
+        <li><a href="#">Live Music Nights</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#location">Location</a></li>
+        <li><a href="#reserve">Reserve</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 <span>Chiya Lighter</span> · Kapan, Budhanilkantha, Kathmandu</p>
+    <p>Crafted with <span>♥</span> in Nepal</p>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  setTimeout(() => {
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  }, 80);
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '20px'; cursor.style.height = '20px';
+    ring.style.width = '60px'; ring.style.height = '60px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '12px'; cursor.style.height = '12px';
+    ring.style.width = '40px'; ring.style.height = '40px';
+  });
+});
+
+// PARTICLES
+const pc = document.getElementById('particles');
+const pctx = pc.getContext('2d');
+let W = pc.width = window.innerWidth;
+let H = pc.height = window.innerHeight;
+const pts = Array.from({length:80}, () => ({
+  x: Math.random()*W, y: Math.random()*H,
+  vx:(Math.random()-0.5)*0.3, vy:-Math.random()*0.5-0.1,
+  r: Math.random()*2+0.5, o: Math.random()*0.5+0.1,
+  c: Math.random() < 0.5 ? '200,130,10' : '245,230,200'
+}));
+function animPts(){
+  pctx.clearRect(0,0,W,H);
+  pts.forEach(p => {
+    pctx.beginPath();
+    pctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    pctx.fillStyle = `rgba(${p.c},${p.o})`;
+    pctx.fill();
+    p.x += p.vx; p.y += p.vy;
+    if(p.y < -5){ p.y = H+5; p.x = Math.random()*W; }
+    if(p.x < 0) p.x = W; if(p.x > W) p.x = 0;
+  });
+  requestAnimationFrame(animPts);
+}
+animPts();
+window.addEventListener('resize', () => {
+  W = pc.width = window.innerWidth; H = pc.height = window.innerHeight;
+});
+// MENU TABS
+function switchTab(id){
+  document.querySelectorAll('.menu-grid').forEach(g => g.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// INTERSECTION OBSERVER
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal,.reveal-left').forEach(el => observer.observe(el));
+
+// GALLERY CANVASES
+function drawGallery(canvasId, colors, label, type){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width = canvas.offsetWidth || 400;
+  const h = canvas.height = canvas.offsetHeight || 300;
+  
+  // Background gradient
+  const bg = ctx.createLinearGradient(0,0,w,h);
+  colors.forEach((c,i) => bg.addColorStop(i/(colors.length-1), c));
+  ctx.fillStyle = bg;
+  ctx.fillRect(0,0,w,h);
+  
+  // Atmospheric circles
+  for(let i=0; i<3; i++){
+    const grd = ctx.createRadialGradient(
+      Math.random()*w, Math.random()*h, 0,
+      Math.random()*w, Math.random()*h, w*0.4
+    );
+    grd.addColorStop(0, 'rgba(255,200,100,0.08)');
+    grd.addColorStop(1, 'transparent');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0,0,w,h);
+  }
+  
+  // Draw type-specific element
+  ctx.save();
+  ctx.translate(w/2, h/2);
+  
+  if(type === 'cup'){
+    // Draw stylized cup
+    ctx.shadowBlur = 30; ctx.shadowColor = 'rgba(200,130,10,0.5)';
+    const grad = ctx.createLinearGradient(-40,0,40,80);
+    grad.addColorStop(0,'rgba(220,150,20,0.8)');
+    grad.addColorStop(1,'rgba(100,60,5,0.9)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(-35,-30); ctx.lineTo(35,-30); ctx.lineTo(45,50); ctx.lineTo(-45,50);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = 'rgba(255,200,80,0.5)'; ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.ellipse(0,-30,38,8,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  } else if(type === 'hookah'){
+    ctx.shadowBlur = 40; ctx.shadowColor = 'rgba(140,80,200,0.7)';
+    const g = ctx.createRadialGradient(0,30,0,0,30,50);
+    g.addColorStop(0,'rgba(160,100,220,0.8)'); g.addColorStop(1,'rgba(80,40,140,0.6)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.ellipse(0,30,40,30,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(150,90,210,0.6)';
+    ctx.fillRect(-5,-30,10,60);
+    const bw = ctx.createRadialGradient(0,-45,0,0,-45,18);
+    bw.addColorStop(0,'rgba(200,100,60,0.9)'); bw.addColorStop(1,'rgba(140,60,30,0.7)');
+    ctx.fillStyle=bw; ctx.beginPath(); ctx.ellipse(0,-45,18,12,0,0,Math.PI*2); ctx.fill();
+  } else if(type === 'rooftop'){
+    // Mountains silhouette
+    ctx.fillStyle = 'rgba(30,20,10,0.6)';
+    ctx.beginPath(); ctx.moveTo(-w/2,h*0.2); ctx.lineTo(-w*0.3,-h*0.1); ctx.lineTo(0,h*0.15); ctx.lineTo(w*0.2,-h*0.05); ctx.lineTo(w/2,h*0.2); ctx.fill();
+    // Stars
+    for(let s=0;s<20;s++){
+      ctx.fillStyle = `rgba(255,240,200,${Math.random()*0.6+0.2})`;
+      ctx.beginPath();
+      ctx.arc((Math.random()-0.5)*w, (Math.random()-0.5)*h*0.8, Math.random()*1.5+0.5, 0, Math.PI*2);
+      ctx.fill();
+    }
+  }
+  ctx.restore();
+  
+  // Grain overlay
+  ctx.fillStyle = 'rgba(0,0,0,0.25)';
+  ctx.fillRect(0,0,w,h);
+  
+  // Label
+  ctx.fillStyle = 'rgba(200,130,10,0.6)';
+  ctx.font = '400 11px Cinzel, serif';
+  ctx.letterSpacing = '3px';
+  ctx.textAlign = 'center';
+  ctx.fillText(label.toUpperCase(), w/2, h-16);
+}
+
+setTimeout(() => {
+  drawGallery('galleryCanvas1',['#1a1008','#2d1a05','#0e0905'],'Interior Lounge','cup');
+  drawGallery('galleryCanvas2',['#0a1205','#1a2a0a','#060804'],'Chiya Corner','cup');
+  drawGallery('galleryCanvas3',['#0a0515','#150825','#060310'],'Evening Hookah','hookah');
+  drawGallery('galleryCanvas4',['#050810','#0a1020','#030508'],'Rooftop View','rooftop');
+  drawGallery('galleryCanvas5',['#1a0e05','#2a1808','#0e0804'],'Coffee Bar','cup');
+}, 300);
+
+// MAP CANVAS
+function drawMap(){
+  const canvas = document.getElementById('mapCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width = canvas.offsetWidth || 500;
+  const h = canvas.height = canvas.offsetHeight || 380;
+  
+  ctx.fillStyle = '#0f0c08';
+  ctx.fillRect(0,0,w,h);
+  
+  // Grid lines (streets)
+  ctx.strokeStyle = 'rgba(200,130,10,0.12)'; ctx.lineWidth=1;
+  for(let x=0;x<w;x+=40){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+  for(let y=0;y<h;y+=40){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+  
+  // Main roads
+  ctx.strokeStyle='rgba(200,130,10,0.25)'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(0,h*0.55); ctx.lineTo(w,h*0.45); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w*0.4,0); ctx.lineTo(w*0.5,h); ctx.stroke();
+  
+  // Road labels
+  ctx.fillStyle='rgba(200,130,10,0.4)'; ctx.font='10px DM Sans'; ctx.textAlign='center';
+  ctx.fillText('Kapan Road', w*0.75, h*0.42);
+  ctx.fillText('Budhanilkantha Rd', w*0.55, h*0.2);
+  
+  // Location pin — center
+  const px = w*0.5, py = h*0.48;
+  
+  // Glow
+  const grd = ctx.createRadialGradient(px,py,0,px,py,60);
+  grd.addColorStop(0,'rgba(200,130,10,0.3)'); grd.addColorStop(1,'transparent');
+  ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(px,py,60,0,Math.PI*2); ctx.fill();
+  
+  // Pin shape
+  ctx.fillStyle='#c8820a';
+  ctx.beginPath(); ctx.arc(px,py-10,14,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(px-8,py-6); ctx.lineTo(px+8,py-6); ctx.lineTo(px,py+18); ctx.closePath(); ctx.fill();
+  
+  // Inner white dot
+  ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(px,py-10,5,0,Math.PI*2); ctx.fill();
+  
+  // Label
+  ctx.fillStyle='rgba(245,230,200,0.9)'; ctx.font='bold 11px Cinzel, serif';
+  ctx.textAlign='center'; ctx.fillText('CHIYA LIGHTER', px, py+35);
+  ctx.fillStyle='rgba(200,130,10,0.6)'; ctx.font='9px DM Sans';
+  ctx.fillText('Kapan Ektabasti, Budhanilkantha', px, py+50);
+  
+  // Animate ping
+  let pingR = 0;
+  function pingAnim(){
+    ctx.clearRect(px-70,py-70,140,140);
+    
+    // Redraw glow
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(px,py,60,0,Math.PI*2); ctx.fill();
+    
+    // Ping circle
+    ctx.strokeStyle=`rgba(200,130,10,${0.6*(1-pingR/50)})`;
+    ctx.lineWidth=2; ctx.beginPath();
+    ctx.arc(px,py-10,14+pingR,0,Math.PI*2); ctx.stroke();
+    pingR = (pingR+0.5) % 50;
+    
+    // Redraw pin
+    ctx.fillStyle='#c8820a';
+    ctx.beginPath(); ctx.arc(px,py-10,14,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(px-8,py-6); ctx.lineTo(px+8,py-6); ctx.lineTo(px,py+18); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(px,py-10,5,0,Math.PI*2); ctx.fill();
+    
+    ctx.fillStyle='rgba(245,230,200,0.9)'; ctx.font='bold 11px Cinzel, serif';
+    ctx.textAlign='center'; ctx.fillText('CHIYA LIGHTER', px, py+35);
+    ctx.fillStyle='rgba(200,130,10,0.6)'; ctx.font='9px DM Sans';
+    ctx.fillText('Kapan Ektabasti, Budhanilkantha', px, py+50);
+    
+    requestAnimationFrame(pingAnim);
+  }
+  pingAnim();
+}
+setTimeout(drawMap, 400);
+
+// Resize gallery
+window.addEventListener('resize', () => {
+  setTimeout(() => {
+    drawGallery('galleryCanvas1',['#1a1008','#2d1a05','#0e0905'],'Interior Lounge','cup');
+    drawGallery('galleryCanvas2',['#0a1205','#1a2a0a','#060804'],'Chiya Corner','cup');
+    drawGallery('galleryCanvas3',['#0a0515','#150825','#060310'],'Evening Hookah','hookah');
+    drawGallery('galleryCanvas4',['#050810','#0a1020','#030508'],'Rooftop View','rooftop');
+    drawGallery('galleryCanvas5',['#1a0e05','#2a1808','#0e0804'],'Coffee Bar','cup');
+    drawMap();
+  }, 200);
+});
+</script>
+</body>
+</html>
 
 
